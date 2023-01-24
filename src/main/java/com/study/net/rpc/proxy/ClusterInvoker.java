@@ -5,6 +5,7 @@ import com.study.net.rpc.registry.RegistryService;
 import com.study.net.rpc.config.RegistryConfig;
 import com.study.net.rpc.config.RemoteConfig;
 import com.study.net.rpc.config.RpcInvocation;
+import com.study.net.rpc.remote.LoadBalance;
 import com.study.net.rpc.remote.protocol.RpcProtocol;
 import com.study.net.rpc.util.SpiUtil;
 
@@ -28,8 +29,11 @@ public class ClusterInvoker implements Invoker {
 
     private RemoteConfig remoteConfig;
 
+    private LoadBalance loadBalance;
+
     public ClusterInvoker(RemoteConfig remoteConfig) throws URISyntaxException {
         this.remoteConfig = remoteConfig;
+        this.loadBalance = SpiUtil.getInstance(remoteConfig.getLoadBalance().getName(), LoadBalance.class);
         String serviceName = remoteConfig.getService().getName();
         List<RegistryConfig> registryConfigs = remoteConfig.getRegistryConfigList();
         for (RegistryConfig registryConfig : registryConfigs) {
@@ -71,15 +75,10 @@ public class ClusterInvoker implements Invoker {
         return remoteConfig.getService();
     }
 
-    public Invoker select(int i) {
-        Invoker invoker = invokerMap.get(i);
-        return invoker;
-    }
 
     @Override
     public Object invoke(RpcInvocation rpcInvocation) throws Exception {
-        int i = new Random().nextInt(invokerMap.size());
-        Invoker select = select(i);
-        return select.invoke(rpcInvocation);
+        Invoker invoker = loadBalance.select(invokerMap);
+        return invoker.invoke(rpcInvocation);
     }
 }

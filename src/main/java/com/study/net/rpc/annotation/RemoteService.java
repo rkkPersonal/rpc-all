@@ -1,6 +1,8 @@
 package com.study.net.rpc.annotation;
 
 
+import com.study.net.rpc.remote.RandomBalance;
+
 import java.lang.annotation.*;
 
 /**
@@ -11,6 +13,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface RemoteService {
 
-    Class<?> loadBalance() default void.class;
+    Class<?> loadBalance() default RandomBalance.class;
 
 }

@@ -18,4 +18,8 @@ public class UrlUtil {
         }
         return null;
     }
+
+    public static String getService(URI uri) {
+        return uri.getPath().replace("/", "");
+    }
 }
