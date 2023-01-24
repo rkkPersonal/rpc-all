@@ -1,7 +1,7 @@
 package com.study.net.rpc.proxy;
 
-import com.study.net.rpc.NotifyListener;
-import com.study.net.rpc.RegistryService;
+import com.study.net.rpc.registry.NotifyListener;
+import com.study.net.rpc.registry.RegistryService;
 import com.study.net.rpc.config.RegistryConfig;
 import com.study.net.rpc.config.RemoteConfig;
 import com.study.net.rpc.config.RpcInvocation;

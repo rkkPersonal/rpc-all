@@ -1,4 +1,4 @@
-package com.study.net.rpc;
+package com.study.net.rpc.registry;
 
 import java.net.URI;
 import java.util.Set;
