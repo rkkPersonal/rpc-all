@@ -48,6 +48,8 @@ public class RpcBeanProcessor implements InstantiationAwareBeanPostProcessor, Ap
             }
             // ToDo This is a remote service client
             RemoteConfig remoteConfig = new RemoteConfig();
+            remoteConfig.setRegistryConfig(applicationContext.getBean(RegistryConfig.class));
+            remoteConfig.setProtocolConfig(applicationContext.getBean(ProtocolConfig.class));
             remoteConfig.setLoadBalance(pwcRemoteService.loadBalance());
             remoteConfig.setService(declaredField.getType());
             // Todo obtain remote proxy bean instance to inject to service
